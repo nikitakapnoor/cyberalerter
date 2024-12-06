@@ -1,7 +1,7 @@
-// PreviewComponent.js
 import React, { useEffect, useState } from "react";
 import { Upgrade } from "../helpers/apiRequests";
 import BarChart from "../helpers/Barchart";
+
 const PreviewComponent = ({ qucikScanData }) => {
   const [showSubscribe, setShowSubscribe] = useState(false);
   const [severityCountx, setSeverityCount] = useState({
@@ -10,91 +10,91 @@ const PreviewComponent = ({ qucikScanData }) => {
     High: 0,
     Critical: 0,
   });
-  
-console.log("quickScanCount ",qucikScanData,  qucikScanData?.severityCount)
-  const [userData,setUserData]=useState(null)
 
-
-useEffect(()=>{
- if(qucikScanData && qucikScanData.severityCount){
-  setSeverityCount(qucikScanData?.severityCount)
- }
-},[qucikScanData])
-
-useEffect(()=>{
-  let user= localStorage.getItem("userData") ?? null;
-   if(user)
-    setUserData(JSON.parse(user));
-    console.log("[sub] initialized userdata", user)
-},[])
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    if(userData)
-    userData?.subscriptionPlan == "Free"
-      ? setShowSubscribe(true)
-      : setShowSubscribe(false);
-    console.log("[sub] initialized Subscription for user data") 
+    if (qucikScanData && qucikScanData.severityCount) {
+      setSeverityCount(qucikScanData?.severityCount);
+    }
+  }, [qucikScanData]);
+
+  useEffect(() => {
+    let user = localStorage.getItem("userData") ?? null;
+    if (user) setUserData(JSON.parse(user));
+  }, []);
+
+  useEffect(() => {
+    if (userData) {
+      userData?.subscriptionPlan === "Free"
+        ? setShowSubscribe(true)
+        : setShowSubscribe(false);
+    }
   }, [userData]);
 
-  useEffect(()=>{
-
-      setUserData(JSON.parse( localStorage.getItem("userData") ))
-      console.log("[sub] when showsubscribe changed")
-  },[showSubscribe])
-
   return (
-    <div className="grid grid-cols-2 gap-4">
-      {/* First Division (Card) */}
-      <div className="bg-white shadow-md rounded-lg p-6">
-        <h3>
-          <b>Total Vunerabilities</b>
-        </h3>
-        <BarChart data={severityCountx} />
+    <div className="grid grid-cols-3 gap-6 h-[300px] overflow-hidden pb-2">
+      {/* First Division (Bar Chart Card) */}
+      <div className="bg-white shadow-md rounded-lg p-4 border-[1px] border-gray h-[290px]">
+        <h3 className="text-xl font-bold text-gray-700 mb-4">Total Vulnerabilities</h3>
+        <div className="h-[200px]">
+          <BarChart data={severityCountx} />
+          </div>
       </div>
-
+  
       {/* Second Division (2x2 Cards) */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h3>
-            <b>Quick Scans </b>
-          </h3>
-          <p>Today : {qucikScanData?.scansToday}</p>
-          <p>scans left :  {qucikScanData?.scansLeftToday}</p>
-          
+        {/* Card 1: Quick Scans */}
+        <div className="bg-gradient-to-br from-white to-blue-50 shadow-md rounded-lg p-4 flex flex-col justify-between">
+          <h3 className="text-lg font-bold text-blue-600 mb-2">Quick Scans</h3>
+          <div>
+            <div className="text-3xl font-extrabold text-gray-900 mb-1">{qucikScanData?.scansToday || 0}</div>
+            <p className="text-sm text-gray-500">Today</p>
+            <div className="text-md font-semibold text-gray-700 mt-2">
+              Scans Left: {qucikScanData?.scansLeftToday || 0}
+            </div>
+          </div>
         </div>
-        <div className="bg-white shadow-md rounded-lg p-6">
-        <h3>
-            <b>Monitor Scans </b>
-          </h3>
-          <p>Today : 0</p>
-          <p>scans left :  20 or 10</p>
-          
+  
+        {/* Card 2: Monitor Scans */}
+        <div className="bg-gradient-to-br from-white to-blue-50 shadow-md rounded-lg p-4  flex flex-col justify-between">
+          <h3 className="text-lg font-bold text-green-600 mb-2">Monitor Scans</h3>
+          <div>
+            <div className="text-3xl font-extrabold text-gray-900 mb-1">0</div>
+            <p className="text-sm text-gray-500">Today</p>
+            <div className="text-md font-semibold text-gray-700 mt-2">Scans Left: 20</div>
+          </div>
         </div>
-        <div className="bg-white shadow-md rounded-lg p-6">
-           what can we add here? time stamp?
+  
+        {/* Card 3: Placeholder for Timestamp */}
+        <div className="bg-gradient-to-br from-white to-blue-50 shadow-md rounded-lg p-4  flex flex-col justify-between">
+          <h3 className="text-lg font-bold text-purple-600 mb-2">Last Scan Timestamp</h3>
+          <div className="text-2xl font-bold text-gray-900 mt-4">
+            {qucikScanData?.lastScanTimestamp || "N/A"}
+          </div>
         </div>
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h3>
-            <b>Subscription plan</b>
-          </h3>
+  
+        {/* Card 4: Subscription Plan */}
+        <div className="bg-gradient-to-br from-white to-blue-50 shadow-md rounded-lg p-4  flex flex-col justify-between">
+          <h3 className="text-lg font-bold text-red-600 mb-2">Subscription Plan</h3>
           {showSubscribe ? (
             <button
               onClick={() => {
                 Upgrade();
                 setShowSubscribe(false);
               }}
-              className="p-2 text-green-400 border-2 border-green-400 rounded-lg"
+              className="p-2 text-sm font-bold bg-red-600 text-white border-2 border-red-600 rounded-lg hover:bg-white hover:text-red-600 transition"
             >
-              {" "}
-              upgrade
+              Upgrade to Pro
             </button>
-          ):(
-            <div>you are a pro user</div>
+          ) : (
+            <div className="text-2xl font-extrabold text-gray-900 mt-4">Pro User</div>
           )}
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default PreviewComponent;

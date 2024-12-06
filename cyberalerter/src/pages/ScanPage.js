@@ -38,10 +38,9 @@ const DashboardPage = () => {
       {/* Main content on the right */}
 
   {/* Main Content */}
-  <div className=" flex-row justify-center items-center w-full">
-      <div className="text-black font-bold mt-4 justify-left ml-24 flex">NEW SCAN</div>
-      <div className="w-full pt-1 justify-center flex h-[80%]">
-    <div className="p-2 overflow-auto form-abc w-[80%] ml-16 ">
+  <div className=" flex-row ml-24 mt-4 w-full">
+      <div className="w-full pt-1 flex h-[100%]">
+    <div className="p-2 overflow-auto form-abc w-[90%] ">
       {/* Card with Tabs */}
       <div className="flex justify-left">
         <button
@@ -64,11 +63,16 @@ const DashboardPage = () => {
         >
           Monitor Scan
         </button>
+        <button className="h-[28px] w-[28px] rounded-2xl  border border-blue-400 text-blue-400 ml-2">
+                 ?
+        </button>
       </div>
-      <div className="bg-white rounded-b-lg p-6 border-b-2 border-x-2 rounded-tr-lg">
+      <div className="bg-gray-300 text-gray-600 border-gray-300 shadow-inner rounded-b-lg  rounded-tr-lg h-[90%]">
+      <div className={`bg-white rounded-b-lg p-6 border-b-2 border-x-2 h-full ${activeTab === "monitorScan"? " rounded-t-xl ":" rounded-tr-lg "}`}>
         {/* Content based on active tab */}
         {activeTab === "quickScan" && <QuickScan />}
         {activeTab === "monitorScan" && <MonitorScan />}
+      </div>
       </div>
       </div>
     </div>

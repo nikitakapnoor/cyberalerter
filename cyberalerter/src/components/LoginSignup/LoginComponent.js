@@ -11,8 +11,8 @@ import Eyec from '../../images/blackeye.svg';
 import Cookies from 'js-cookie';
 
 const LoginComponent = ({ toggleForm }) => {
-  const [email, setEmail] = useState("ac@gmail.com");
-  const [password, setPassword] = useState("acac");
+  const [email, setEmail] = useState("test123@g.com");
+  const [password, setPassword] = useState("test123@g.com");
   const [error, setError] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);

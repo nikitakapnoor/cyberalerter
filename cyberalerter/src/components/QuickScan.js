@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { postAPI } from "../helpers/apiRequests";
 import Cookies from 'js-cookie';
+import sendemail from "../images/sendemail.svg";
 
 const QuickScan = () => {
   // State variables for form inputs
@@ -150,11 +151,15 @@ const QuickScan = () => {
 
     {/* Send Email Button */}
     <button
-      className="p-1 border-2 border-blue-800 hover:bg-blue-200 text-blue-800 text-md"
-      onClick={sendEmail}
-    >
-      Send Email
-    </button>
+  className="p-2 border-2 border-blue-800 bg-gradient-to-r from-blue-500 to-blue-700
+   hover:from-blue-700 hover:to-blue-500 text-white rounded-full text-md shadow-lg transform
+    transition-transform duration-200 hover:scale-105"
+  onClick={sendEmail}
+>
+  <img src={sendemail} alt="Send Email Icon" className="w-6 h-6" />
+</button>
+
+
   </div>
 
   <div className="bg-white p-4 rounded-md overflow-y-auto">

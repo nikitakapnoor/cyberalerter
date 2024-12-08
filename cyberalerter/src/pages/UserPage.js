@@ -1,38 +1,38 @@
 import { useEffect, useState } from "react";
 import { getAPI, postAPI, Upgrade } from "../helpers/apiRequests";
 import Sidebar from "../components/sidebar";
-import Cookies from "js-cookie";
-import { useNavigate, useLocation } from "react-router-dom";
+// import Cookies from "js-cookie";
+// import { useNavigate, useLocation } from "react-router-dom";
 
 const UserPage = () => {
   const storedData = localStorage.getItem("userData");
   const [userData, setUserData] = useState(null);
-  const navigate = useNavigate();
-  const location = useLocation();
+  // const navigate = useNavigate();
+  // const location = useLocation();
 
   // Helper function to check if the link is active
-  const isActive = (path) => location.pathname === path;
+  // const isActive = (path) => location.pathname === path;
 
-  const logout = () => {
-    postAPI({
-      endpoint: "/Users/logout",
-      params: {
-        token: Cookies.get("token"),
-      },
-      callback: (response) => {
-        if (response.status === 200) {
-          // Handle success, e.g., display a success message
-          localStorage.removeItem("userData");
-          Cookies.remove("token");
-          Cookies.remove("userId");
-          navigate("/");
-        } else {
-          // Handle error response
-          console.error(response.data.message);
-        }
-      },
-    });
-  };
+  // const logout = () => {
+  //   postAPI({
+  //     endpoint: "/Users/logout",
+  //     params: {
+  //       token: Cookies.get("token"),
+  //     },
+  //     callback: (response) => {
+  //       if (response.status === 200) {
+  //         // Handle success, e.g., display a success message
+  //         localStorage.removeItem("userData");
+  //         Cookies.remove("token");
+  //         Cookies.remove("userId");
+  //         navigate("/");
+  //       } else {
+  //         // Handle error response
+  //         console.error(response.data.message);
+  //       }
+  //     },
+  //   });
+  // };
 
   useEffect(() => {
     if (storedData) {
@@ -43,10 +43,10 @@ const UserPage = () => {
   return (
     <div className="flex h-screen">
       {/* Sidebar on the left */}
-      <Sidebar isActive={isActive} />
+      <Sidebar />
       
       {/* Main content on the right */}
-      <div className="flex-1 ml-24 p-6 mr-20 w-1/2"> {/* Adjusted width to make it less wide */}
+      <div className="flex-1 ml-24 p-6 mr-20 w-1/2">
         {/* Header at the top */}
         <h2 className="text-2xl font-bold mb-4">User Information</h2>
         {userData ? (
@@ -78,9 +78,14 @@ const UserPage = () => {
                 className="w-full p-2 border rounded-md"
               />
 
-              {userData.subscriptionPlan=="Free" && <button onclick={Upgrade()}className="text-green-500 border-2 border-green-800 hover:text-green hover:bg-green-200">
-                 upgrade to Pro now
-              </button>}
+              {userData.subscriptionPlan === "Free" && (
+                <button
+                  onClick={Upgrade}
+                  className="text-green-500 border-2 border-green-800 hover:text-green hover:bg-green-200"
+                >
+                  Upgrade to Pro now
+                </button>
+              )}
             </div>
             <div>
               <label className="block text-sm font-semibold mb-2">Quick Scan Limit</label>
@@ -100,7 +105,7 @@ const UserPage = () => {
                 className="w-full p-2 border rounded-md"
               />
             </div>
-            <div>
+            {/* <div>
               <button
                 type="button"
                 onClick={logout}
@@ -108,7 +113,7 @@ const UserPage = () => {
               >
                 Logout
               </button>
-            </div>
+            </div> */}
           </form>
         ) : (
           <p>Loading user data...</p>

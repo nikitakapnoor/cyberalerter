@@ -4,37 +4,38 @@ import Dashboard from "../images/dashboard.svg";
 import Scanner from "../images/iscanner.svg";
 import Report from "../images/report.svg";
 import user from "../images/user-blue.svg";
-import logo from "../images/logo.svg";
-// import { postAPI } from "../helpers/apiRequests";
-// import Cookies from "js-cookie";
-// import { useNavigate } from "react-router-dom";
+import logo from "../images/Logoacwhite.svg";
+import Logout from "../images/Logout.svg";
+import { postAPI } from "../helpers/apiRequests";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const location = useLocation(); // Get the current location (URL)
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // // Helper function to check if the link is active
   const isActive = (path) => location.pathname === path;
-  // const logout = () => {
-  //   postAPI({
-  //     endpoint: "/Users/logout",
-  //     params: {
-  //       token: Cookies.get("token"),
-  //     },
-  //     callback: (response) => {
-  //       if (response.status === 200) {
-  //         // Handle success, e.g., display a success messa
-  //         localStorage.removeItem("userData");
-  //         Cookies.remove("token");
-  //         Cookies.remove("userId");
-  //         navigate("/");
-  //       } else {
-  //         // Handle error response
-  //         console.error(response.data.message);
-  //       }
-  //     },
-  //   });
-  // };
+  const logout = () => {
+    postAPI({
+      endpoint: "/Users/logout",
+      params: {
+        token: Cookies.get("token"),
+      },
+      callback: (response) => {
+        if (response.status === 200) {
+          // Handle success, e.g., display a success messa
+          localStorage.removeItem("userData");
+          Cookies.remove("token");
+          Cookies.remove("userId");
+          navigate("/");
+        } else {
+          // Handle error response
+          console.error(response.data.message);
+        }
+      },
+    });
+  };
   return (
     <div
       className={`fixed top-0 left-0 h-full ${
@@ -43,10 +44,10 @@ const Sidebar = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex flex-col justify-between h-full pt-6">
+      <div className="flex flex-col justify-between h-full mx-2 pt-6">
         {/* Logo at the top */}
         <div className="text-3xl px-4 font-bold tracking-wider">
-          <img src={logo} alt="Dashboard Icon" className="w-7 h-7" />{" "}
+          <img src={logo} alt="Dashboard Icon" className="w-9 h-9" />{" "}
         </div>
 
         {/* Navigation links */}
@@ -85,22 +86,24 @@ const Sidebar = () => {
             {isHovered && <span className="ml-2">Reports</span>}
           </Link>
         </div>
-        {/* User at the bottom */}
-        {/* <div onClick={logout}>logout</div> */}
-        <Link
-          to="/user"
-          className={`text-lg py-2 px-3 mx-2 rounded w-auto mt-auto mb-2 ${
-            isActive("/user")
-              ? "bg-blue-500 text-white"
-              : "hover:bg-blue-500 hover:text-white"
-          } transition duration-300 flex items-center`}
-        >
-          <img src={user} alt="Scanner Icon" className="w-6 h-6" />
-          {isHovered && <span className="ml-2">Profile</span>}
-        </Link>
+        <div className="flex items-center mt-auto mb-2"> 
+            <Link to="/user" 
+          className={`text-lg py-1 px-3 mx-2 rounded w-auto mt-auto mb-5 ${ 
+            isActive("/user") ? "bg-blue-500 text-white" : "hover:bg-blue-500 hover:text-white" 
+            } 
+            transition duration-300 flex items-center`} > 
+        <img src={user} alt="Scanner Icon" className="w-6 h-6" />
+        {/* {isHovered && <span className="ml-2">Profile</span>} */}
+         </Link> 
+        <button type="button" 
+        onClick={logout} onMouseEnter={() => setIsHovered(true)} 
+        onMouseLeave={() => setIsHovered(false)}
+         className="text-white py-6 px-2 rounded-md flex items-center mr-4" > 
+         <img src={Logout} alt="Logout Icon" className="w-6 h-6" />
+          </button> 
+         </div>
       </div>
     </div>
   );
 };
-
 export default Sidebar;

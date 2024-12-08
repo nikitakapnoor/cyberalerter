@@ -8,11 +8,12 @@ import passwordBlack from '../../images/password-black.svg';
 import passwordBlue from '../../images/password-blue.svg';
 import Eyeo from '../../images/blueeye.svg';
 import Eyec from '../../images/blackeye.svg';
+
 import Cookies from 'js-cookie';
 
 const LoginComponent = ({ toggleForm }) => {
-  const [email, setEmail] = useState("test123@g.com");
-  const [password, setPassword] = useState("test123@g.com");
+  const [email, setEmail] = useState("ac@gmail.com");
+  const [password, setPassword] = useState("apeksha@");
   const [error, setError] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -54,6 +55,8 @@ const LoginComponent = ({ toggleForm }) => {
   // const passwordIcon = password ? passwordBlue:passwordBlack;
   return (
     <div className="flex items-center justify-center min-h-screen font-k2d ">
+<div className="text-3xl px-4 font-bold tracking-wider">
+        </div>
       <div className="bg-white shadow-lg rounded-lg p-5 w-full h-96">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-4" style={{fontFamily:'K2D', fontSize: '32px' }}>Login</h2>
         <form onSubmit={handleLogin} className="space-y-4 mt-8">
